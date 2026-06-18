@@ -2,7 +2,7 @@ import {
   UseStorageStateOptions,
   UseStorageStateReturn,
   useStorageState,
-} from './internal/useStorageState';
+} from '../../internal/useStorageState';
 
 // Stable reference so `useStorageState`'s callbacks/effects stay stable.
 const getLocalStorage = () => window.localStorage;

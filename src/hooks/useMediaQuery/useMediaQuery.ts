@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { isBrowser } from './internal/isBrowser';
+import { isBrowser } from '../../internal/isBrowser';
 
 /**
  * Tracks whether a CSS media query currently matches, and re-renders when it

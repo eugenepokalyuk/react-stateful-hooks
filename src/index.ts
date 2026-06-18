@@ -1,7 +1,7 @@
-export { useLocalStorageState } from './useLocalStorageState';
-export { useSessionStorageState } from './useSessionStorageState';
-export { useDebouncedValue } from './useDebouncedValue';
-export { useMediaQuery } from './useMediaQuery';
+export { useLocalStorageState } from './hooks/useLocalStorageState';
+export { useSessionStorageState } from './hooks/useSessionStorageState';
+export { useDebouncedValue } from './hooks/useDebouncedValue';
+export { useMediaQuery } from './hooks/useMediaQuery';
 
 export type { Serializer } from './internal/serializer';
 export type {
