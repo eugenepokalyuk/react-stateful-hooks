@@ -5,7 +5,8 @@
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 A small, **well-typed**, **SSR-safe** collection of React hooks for working with
-browser state. Zero runtime dependencies, tree-shakeable, ships ESM + CJS + types.
+browser state. Tree-shakeable, ships ESM + CJS + types, and its only runtime
+dependency is React's official `use-sync-external-store` shim (for React 17).
 
 > The problem: every project re-implements "persist this bit of state to
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
@@ -48,7 +49,7 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
   key: string,
   defaultValue: T,
   options?: {
-    serializer?: { parse(raw: string): T; stringify(value: T): T };
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
     syncTabs?: boolean; // default: true
   },
 );
@@ -62,13 +63,14 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
 
 ### Behaviour worth knowing
 
-- **SSR-safe** — returns `defaultValue` when there is no DOM, so it renders on
-  the server without touching `window`.
+- **SSR-safe** — built on `useSyncExternalStore`, so it returns `defaultValue`
+  on the server and hydrates without a mismatch, then reads storage on the client.
 - **Resilient** — corrupted JSON or a `getItem`/`setItem` failure (quota,
   private mode) falls back to the default and keeps the in-memory value instead
   of throwing.
 - **Cross-tab sync** — listens to the `storage` event and updates state when
-  another tab writes the same key. Disable with `{ syncTabs: false }`.
+  another tab writes the same key. Disable with `{ syncTabs: false }`. Hooks in
+  the *same* tab always stay in sync, regardless of this flag.
 - **Custom serialization** — pass a `serializer` to support `Date`, `Map`,
   `BigInt`, or a compact wire format.
 

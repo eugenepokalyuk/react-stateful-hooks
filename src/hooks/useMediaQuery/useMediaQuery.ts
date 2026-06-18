@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 import { isBrowser } from '../../internal/isBrowser';
 
@@ -7,7 +8,8 @@ import { isBrowser } from '../../internal/isBrowser';
  * changes.
  *
  * - SSR-safe: returns `defaultState` (default `false`) when there is no DOM,
- *   so it never touches `window.matchMedia` on the server.
+ *   so it never touches `window.matchMedia` on the server and stays consistent
+ *   through hydration.
  * - Subscribes via `MediaQueryList`'s `change` event and cleans up on unmount.
  *
  * @example
@@ -17,21 +19,26 @@ import { isBrowser } from '../../internal/isBrowser';
  * ```
  */
 export function useMediaQuery(query: string, defaultState = false): boolean {
-  const [matches, setMatches] = useState<boolean>(() =>
-    isBrowser ? window.matchMedia(query).matches : defaultState,
+  const subscribe = React.useCallback(
+    (onStoreChange: () => void) => {
+      if (!isBrowser) return () => {};
+      const mediaQueryList = window.matchMedia(query);
+      mediaQueryList.addEventListener('change', onStoreChange);
+      return () =>
+        mediaQueryList.removeEventListener('change', onStoreChange);
+    },
+    [query],
   );
 
-  useEffect(() => {
-    if (!isBrowser) return;
+  const getSnapshot = React.useCallback(
+    () => (isBrowser ? window.matchMedia(query).matches : defaultState),
+    [query, defaultState],
+  );
 
-    const mediaQueryList = window.matchMedia(query);
-    const handleChange = () => setMatches(mediaQueryList.matches);
+  const getServerSnapshot = React.useCallback(
+    () => defaultState,
+    [defaultState],
+  );
 
-    // Sync immediately in case the query changed between render and effect.
-    handleChange();
-    mediaQueryList.addEventListener('change', handleChange);
-    return () => mediaQueryList.removeEventListener('change', handleChange);
-  }, [query]);
-
-  return matches;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

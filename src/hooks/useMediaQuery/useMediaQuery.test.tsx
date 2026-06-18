@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { useMediaQuery } from './useMediaQuery';
@@ -57,5 +58,15 @@ describe('useMediaQuery', () => {
 
     act(() => mql.set(false));
     expect(result.current).toBe(false);
+  });
+
+  it('renders defaultState on the server without touching matchMedia', () => {
+    function Probe() {
+      const isWide = useMediaQuery('(min-width: 1024px)', true);
+      return <span>{String(isWide)}</span>;
+    }
+
+    // No matchMedia mock installed: the server snapshot must not call it.
+    expect(renderToString(<Probe />)).toContain('true');
   });
 });

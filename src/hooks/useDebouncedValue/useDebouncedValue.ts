@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
 
 /**
  * Returns a debounced copy of `value` that only updates after `delayMs` has
@@ -16,9 +16,9 @@ import { useEffect, useState } from 'react';
  * ```
  */
 export function useDebouncedValue<T>(value: T, delayMs: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timer = setTimeout(() => setDebouncedValue(value), delayMs);
     return () => clearTimeout(timer);
   }, [value, delayMs]);
