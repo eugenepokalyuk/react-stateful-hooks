@@ -81,14 +81,48 @@ const [since, setSince] = useLocalStorageState('since', new Date(), {
 });
 ```
 
-## Roadmap
+## `useSessionStorageState`
+
+Same API and guarantees as `useLocalStorageState`, but backed by
+`sessionStorage` (state lives until the tab closes). Ideal for wizard steps,
+scroll positions, or any throwaway-per-session state.
+
+```tsx
+const [step, setStep] = useSessionStorageState('wizard:step', 0);
+```
+
+## `useDebouncedValue`
+
+Returns a debounced copy of a value that only updates after the delay passes
+without further changes — rapid updates collapse into a single trailing update.
+
+```tsx
+const [query, setQuery] = useState('');
+const debouncedQuery = useDebouncedValue(query, 300);
+
+useEffect(() => {
+  search(debouncedQuery);
+}, [debouncedQuery]);
+```
+
+## `useMediaQuery`
+
+Tracks whether a CSS media query matches and re-renders on change. SSR-safe —
+returns `defaultState` (default `false`) on the server.
+
+```tsx
+const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+const isWide = useMediaQuery('(min-width: 1024px)');
+```
+
+## Hooks
 
 Built on a shared, tested core so each hook stays small and consistent:
 
-- [x] `useLocalStorageState`
-- [ ] `useSessionStorageState`
-- [ ] `useDebouncedValue`
-- [ ] `useMediaQuery`
+- [x] `useLocalStorageState` — persisted state with cross-tab sync
+- [x] `useSessionStorageState` — per-tab persisted state
+- [x] `useDebouncedValue` — trailing-edge debounce
+- [x] `useMediaQuery` — reactive, SSR-safe media queries
 
 ## Development
 
