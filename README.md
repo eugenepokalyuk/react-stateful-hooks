@@ -12,6 +12,19 @@ dependency is React's official `use-sync-external-store` shim (for React 17)
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
 > or silently drift out of sync between tabs. This library does it once, correctly
 
+## Hooks at a glance
+
+| Hook | What it does |
+| --- | --- |
+| [`useLocalStorageState`](#uselocalstoragestate) | Persisted state with cross-tab sync |
+| [`useSessionStorageState`](#usesessionstoragestate) | Per-tab persisted state |
+| [`useDebouncedValue`](#usedebouncedvalue) | Trailing-edge debounce of a value |
+| [`useMediaQuery`](#usemediaquery) | Reactive, SSR-safe CSS media query |
+| [`useNetworkState`](#usenetworkstate) | Reactive, SSR-safe online/offline status |
+| [`useCopyToClipboard`](#usecopytoclipboard) | Copy with auto-resetting "copied" feedback |
+| [`usePrefersColorScheme`](#usepreferscolorscheme) | Reactive `'light' \| 'dark'` preference |
+| [`usePrefersReducedMotion`](#useprefersreducedmotion) | Reactive reduced-motion preference |
+
 ## Install
 
 ```bash
@@ -181,19 +194,6 @@ const reduceMotion = usePrefersReducedMotion();
 
 <motion.div animate={reduceMotion ? undefined : { x: 100 }} />;
 ```
-
-## Hooks
-
-Built on a shared, tested core so each hook stays small and consistent:
-
-- [x] `useLocalStorageState` — persisted state with cross-tab sync
-- [x] `useSessionStorageState` — per-tab persisted state
-- [x] `useDebouncedValue` — trailing-edge debounce
-- [x] `useMediaQuery` — reactive, SSR-safe media queries
-- [x] `useNetworkState` — reactive, SSR-safe online/offline status
-- [x] `useCopyToClipboard` — copy with auto-resetting "copied" feedback
-- [x] `usePrefersColorScheme` — reactive `'light' | 'dark'` preference
-- [x] `usePrefersReducedMotion` — reactive reduced-motion preference
 
 ## Development
 
