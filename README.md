@@ -6,11 +6,11 @@
 
 A small, **well-typed**, **SSR-safe** collection of React hooks for working with
 browser state. Tree-shakeable, ships ESM + CJS + types, and its only runtime
-dependency is React's official `use-sync-external-store` shim (for React 17).
+dependency is React's official `use-sync-external-store` shim (for React 17)
 
 > The problem: every project re-implements "persist this bit of state to
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
-> or silently drift out of sync between tabs. This library does it once, correctly.
+> or silently drift out of sync between tabs. This library does it once, correctly
 
 ## Install
 
@@ -18,12 +18,12 @@ dependency is React's official `use-sync-external-store` shim (for React 17).
 npm install react-stateful-hooks
 ```
 
-`react >= 17` is a peer dependency.
+`react >= 17` is a peer dependency
 
 ## `useLocalStorageState`
 
 A drop-in `useState` that **persists to `localStorage`** and **stays in sync
-across browser tabs**.
+across browser tabs**
 
 ```tsx
 import { useLocalStorageState } from 'react-stateful-hooks';
@@ -36,6 +36,7 @@ function ThemeToggle() {
       <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
         Theme: {theme}
       </button>
+
       <button onClick={resetTheme}>Reset</button>
     </>
   );
@@ -57,22 +58,22 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
 
 | Return | Description |
 | --- | --- |
-| `value` | Current value (typed as `T`). |
-| `setValue` | Accepts a value **or** an updater `(prev) => next`, like `useState`. |
-| `removeValue` | Clears the key from storage and resets state to `defaultValue`. |
+| `value` | Current value (typed as `T`) |
+| `setValue` | Accepts a value **or** an updater `(prev) => next`, like `useState` |
+| `removeValue` | Clears the key from storage and resets state to `defaultValue` |
 
 ### Behaviour worth knowing
 
 - **SSR-safe** — built on `useSyncExternalStore`, so it returns `defaultValue`
-  on the server and hydrates without a mismatch, then reads storage on the client.
+  on the server and hydrates without a mismatch, then reads storage on the client
 - **Resilient** — corrupted JSON or a `getItem`/`setItem` failure (quota,
   private mode) falls back to the default and keeps the in-memory value instead
-  of throwing.
+  of throwing
 - **Cross-tab sync** — listens to the `storage` event and updates state when
   another tab writes the same key. Disable with `{ syncTabs: false }`. Hooks in
-  the *same* tab always stay in sync, regardless of this flag.
+  the *same* tab always stay in sync, regardless of this flag
 - **Custom serialization** — pass a `serializer` to support `Date`, `Map`,
-  `BigInt`, or a compact wire format.
+  `BigInt`, or a compact wire format
 
 ```tsx
 const [since, setSince] = useLocalStorageState('since', new Date(), {
@@ -87,7 +88,7 @@ const [since, setSince] = useLocalStorageState('since', new Date(), {
 
 Same API and guarantees as `useLocalStorageState`, but backed by
 `sessionStorage` (state lives until the tab closes). Ideal for wizard steps,
-scroll positions, or any throwaway-per-session state.
+scroll positions, or any throwaway-per-session state
 
 ```tsx
 const [step, setStep] = useSessionStorageState('wizard:step', 0);
@@ -96,7 +97,7 @@ const [step, setStep] = useSessionStorageState('wizard:step', 0);
 ## `useDebouncedValue`
 
 Returns a debounced copy of a value that only updates after the delay passes
-without further changes — rapid updates collapse into a single trailing update.
+without further changes — rapid updates collapse into a single trailing update
 
 ```tsx
 const [query, setQuery] = useState('');
@@ -110,11 +111,48 @@ useEffect(() => {
 ## `useMediaQuery`
 
 Tracks whether a CSS media query matches and re-renders on change. SSR-safe —
-returns `defaultState` (default `false`) on the server.
+returns `defaultState` (default `false`) on the server
 
 ```tsx
 const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
 const isWide = useMediaQuery('(min-width: 1024px)');
+```
+
+## `useNetworkState`
+
+Tracks the browser's online/offline status. SSR-safe — returns
+`{ online: defaultOnline }` (default `true`) on the server. `since` is the time
+of the last status change, or `undefined` until the first transition
+
+```tsx
+const { online, since } = useNetworkState();
+
+if (!online) return <Banner>You are offline.</Banner>;
+```
+
+```ts
+const { online, since } = useNetworkState(defaultOnline?: boolean); // default: true
+```
+
+## `useCopyToClipboard`
+
+Returns a `copy` function plus the state of the last copy attempt. Uses the
+async Clipboard API (requires a secure context); when it's unavailable, `copy`
+resolves `false` and records an `error` instead of throwing. `copied` flips back
+to `false` after `resetDelay` ms so "Copied!" feedback needs no manual timer
+
+```tsx
+const [copy, { copied }] = useCopyToClipboard();
+
+<button onClick={() => copy(url)}>
+    {copied ? 'Copied!' : 'Copy link'}
+</button>
+```
+
+```ts
+const [copy, { value, error, copied }] = useCopyToClipboard(options?: {
+  resetDelay?: number; // ms until `copied` resets; 0 = never. default: 2000
+});
 ```
 
 ## Hooks
@@ -125,6 +163,8 @@ Built on a shared, tested core so each hook stays small and consistent:
 - [x] `useSessionStorageState` — per-tab persisted state
 - [x] `useDebouncedValue` — trailing-edge debounce
 - [x] `useMediaQuery` — reactive, SSR-safe media queries
+- [x] `useNetworkState` — reactive, SSR-safe online/offline status
+- [x] `useCopyToClipboard` — copy with auto-resetting "copied" feedback
 
 ## Development
 
