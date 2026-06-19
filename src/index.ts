@@ -4,8 +4,11 @@ export { useDebouncedValue } from './hooks/useDebouncedValue';
 export { useMediaQuery } from './hooks/useMediaQuery';
 export { useNetworkState } from './hooks/useNetworkState';
 export { useCopyToClipboard } from './hooks/useCopyToClipboard';
+export { usePrefersColorScheme } from './hooks/usePrefersColorScheme';
+export { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 
 export type { NetworkState } from './hooks/useNetworkState';
+export type { ColorScheme } from './hooks/usePrefersColorScheme';
 export type {
   CopyToClipboardState,
   CopyToClipboardFn,

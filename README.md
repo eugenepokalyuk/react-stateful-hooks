@@ -155,6 +155,33 @@ const [copy, { value, error, copied }] = useCopyToClipboard(options?: {
 });
 ```
 
+## `usePrefersColorScheme`
+
+Tracks the user's preferred color scheme via `(prefers-color-scheme: dark)`
+SSR-safe — returns `defaultScheme` (default `'light'`) on the server
+
+```tsx
+const scheme = usePrefersColorScheme(); // 'light' | 'dark'
+
+return <div data-theme={scheme} />;
+```
+
+```ts
+const scheme = usePrefersColorScheme(defaultScheme?: 'light' | 'dark'); // default: 'light'
+```
+
+## `usePrefersReducedMotion`
+
+Tracks whether the user has requested reduced motion via
+`(prefers-reduced-motion: reduce)`. SSR-safe — returns `defaultValue`
+(default `false`) on the server
+
+```tsx
+const reduceMotion = usePrefersReducedMotion();
+
+<motion.div animate={reduceMotion ? undefined : { x: 100 }} />;
+```
+
 ## Hooks
 
 Built on a shared, tested core so each hook stays small and consistent:
@@ -165,6 +192,8 @@ Built on a shared, tested core so each hook stays small and consistent:
 - [x] `useMediaQuery` — reactive, SSR-safe media queries
 - [x] `useNetworkState` — reactive, SSR-safe online/offline status
 - [x] `useCopyToClipboard` — copy with auto-resetting "copied" feedback
+- [x] `usePrefersColorScheme` — reactive `'light' | 'dark'` preference
+- [x] `usePrefersReducedMotion` — reactive reduced-motion preference
 
 ## Development
 
