@@ -1,12 +1,21 @@
 # react-stateful-hooks
 
-[![CI](https://github.com/EugenePokalyuk/react-stateful-hooks/actions/workflows/ci.yml/badge.svg)](https://github.com/EugenePokalyuk/react-stateful-hooks/actions/workflows/ci.yml)
+> **SSR-first React hooks for browser state — zero hydration mismatches, built on `useSyncExternalStore`.**
+
+[![npm version](https://img.shields.io/npm/v/react-stateful-hooks.svg)](https://www.npmjs.com/package/react-stateful-hooks)
+[![npm downloads](https://img.shields.io/npm/dm/react-stateful-hooks.svg)](https://www.npmjs.com/package/react-stateful-hooks)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/react-stateful-hooks.svg)](https://bundlephobia.com/package/react-stateful-hooks)
+[![CI](https://github.com/eugenepokalyuk/react-stateful-hooks/actions/workflows/ci.yml/badge.svg)](https://github.com/eugenepokalyuk/react-stateful-hooks/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/eugenepokalyuk/react-stateful-hooks/branch/main/graph/badge.svg)](https://codecov.io/gh/eugenepokalyuk/react-stateful-hooks)
 ![types](https://img.shields.io/badge/types-included-blue)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
-A small, **well-typed**, **SSR-safe** collection of React hooks for working with
-browser state. Tree-shakeable, ships ESM + CJS + types, and its only runtime
-dependency is React's official `use-sync-external-store` shim (for React 17)
+A small, **well-typed**, **SSR-safe** collection of React hooks for browser
+state. Every hook is built on React's official `useSyncExternalStore`, so it
+renders a stable value on the server and **hydrates without a mismatch** — the
+thing most hook libraries get wrong. Tree-shakeable, ~2 kB gzipped, ships
+ESM + CJS + types, and its only runtime dependency is the
+`use-sync-external-store` shim (for React 17)
 
 > The problem: every project re-implements "persist this bit of state to
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
@@ -14,16 +23,35 @@ dependency is React's official `use-sync-external-store` shim (for React 17)
 
 ## Hooks at a glance
 
-| Hook | What it does |
-| --- | --- |
-| [`useLocalStorageState`](#uselocalstoragestate) | Persisted state with cross-tab sync |
-| [`useSessionStorageState`](#usesessionstoragestate) | Per-tab persisted state |
-| [`useDebouncedValue`](#usedebouncedvalue) | Trailing-edge debounce of a value |
-| [`useMediaQuery`](#usemediaquery) | Reactive, SSR-safe CSS media query |
-| [`useNetworkState`](#usenetworkstate) | Reactive, SSR-safe online/offline status |
-| [`useCopyToClipboard`](#usecopytoclipboard) | Copy with auto-resetting "copied" feedback |
-| [`usePrefersColorScheme`](#usepreferscolorscheme) | Reactive `'light' \| 'dark'` preference |
-| [`usePrefersReducedMotion`](#useprefersreducedmotion) | Reactive reduced-motion preference |
+| Hook                                                  | What it does                               |
+| ----------------------------------------------------- | ------------------------------------------ |
+| [`useLocalStorageState`](#uselocalstoragestate)       | Persisted state with cross-tab sync        |
+| [`useSessionStorageState`](#usesessionstoragestate)   | Per-tab persisted state                    |
+| [`useDebouncedValue`](#usedebouncedvalue)             | Trailing-edge debounce of a value          |
+| [`useMediaQuery`](#usemediaquery)                     | Reactive, SSR-safe CSS media query         |
+| [`useNetworkState`](#usenetworkstate)                 | Reactive, SSR-safe online/offline status   |
+| [`useCopyToClipboard`](#usecopytoclipboard)           | Copy with auto-resetting "copied" feedback |
+| [`usePrefersColorScheme`](#usepreferscolorscheme)     | Reactive `'light' \| 'dark'` preference    |
+| [`usePrefersReducedMotion`](#useprefersreducedmotion) | Reactive reduced-motion preference         |
+
+## Why react-stateful-hooks?
+
+The hooks space is crowded — here is where this library is deliberately
+different. The focus is correctness under SSR and across tabs, not breadth.
+
+|                                        | react-stateful-hooks  | usehooks-ts |      react-use      |
+| -------------------------------------- | :-------------------: | :---------: | :-----------------: |
+| SSR-safe via `useSyncExternalStore`    |     ✅ every hook     | ⚠️ partial  | ⚠️ partial / legacy |
+| Cross-tab storage sync                 |      ✅ built in      |     ❌      |         ⚠️          |
+| Survives corrupted JSON / quota errors |     ✅ falls back     |     ❌      |         ❌          |
+| Same-tab sync across components        |          ✅           |     ⚠️      |         ⚠️          |
+| Bundle size                            | ~2 kB, tree-shakeable |    small    |        large        |
+| Runtime dependencies                   |   1 (official shim)   |      0      |        many         |
+| TypeScript-first                       |          ✅           |     ✅      |         ⚠️          |
+
+If you need hundreds of hooks, reach for `react-use`. If you want a handful of
+browser-state hooks that behave correctly in Next.js / Remix and across tabs,
+this is for you.
 
 ## Install
 
@@ -46,7 +74,9 @@ function ThemeToggle() {
 
   return (
     <>
-      <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
+      <button
+        onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+      >
         Theme: {theme}
       </button>
 
@@ -69,11 +99,11 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
 );
 ```
 
-| Return | Description |
-| --- | --- |
-| `value` | Current value (typed as `T`) |
-| `setValue` | Accepts a value **or** an updater `(prev) => next`, like `useState` |
-| `removeValue` | Clears the key from storage and resets state to `defaultValue` |
+| Return        | Description                                                         |
+| ------------- | ------------------------------------------------------------------- |
+| `value`       | Current value (typed as `T`)                                        |
+| `setValue`    | Accepts a value **or** an updater `(prev) => next`, like `useState` |
+| `removeValue` | Clears the key from storage and resets state to `defaultValue`      |
 
 ### Behaviour worth knowing
 
@@ -84,7 +114,7 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
   of throwing
 - **Cross-tab sync** — listens to the `storage` event and updates state when
   another tab writes the same key. Disable with `{ syncTabs: false }`. Hooks in
-  the *same* tab always stay in sync, regardless of this flag
+  the _same_ tab always stay in sync, regardless of this flag
 - **Custom serialization** — pass a `serializer` to support `Date`, `Map`,
   `BigInt`, or a compact wire format
 
@@ -157,9 +187,7 @@ to `false` after `resetDelay` ms so "Copied!" feedback needs no manual timer
 ```tsx
 const [copy, { copied }] = useCopyToClipboard();
 
-<button onClick={() => copy(url)}>
-    {copied ? 'Copied!' : 'Copy link'}
-</button>
+<button onClick={() => copy(url)}>{copied ? 'Copied!' : 'Copy link'}</button>;
 ```
 
 ```ts
@@ -204,6 +232,11 @@ npm run lint
 npm run typecheck
 npm run build     # ESM + CJS + .d.ts via Vite library mode
 ```
+
+## Contributing
+
+Issues and PRs are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for the
+workflow and conventions. Changes are tracked in [CHANGELOG.md](./CHANGELOG.md).
 
 ## License
 

@@ -13,7 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   back to the GitHub project.
 - Test coverage via `@vitest/coverage-v8`, exposed through the `test:coverage`
   script with `text`, `html`, and `lcov` reporters and coverage thresholds.
+  CI now runs coverage and uploads it to Codecov.
 - This changelog.
+- `CONTRIBUTING.md`, GitHub issue forms (bug / feature), and a pull-request
+  template.
+- README: SSR-first positioning, npm/bundle-size/coverage badges, and a
+  comparison table vs. `usehooks-ts` and `react-use`.
+- More discoverable npm keywords (`ssr-safe`, `hydration`, `nextjs`, `remix`,
+  `usesyncexternalstore`, `react-hooks`).
+
+### Fixed
+
+- Corrected the CI badge URL casing (`eugenepokalyuk`) so it renders.
 
 ## [0.1.3] - 2026-06-19
 
