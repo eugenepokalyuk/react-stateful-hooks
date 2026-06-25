@@ -22,7 +22,7 @@ ESM + CJS + types, and its only runtime dependency is the
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
 > or silently drift out of sync between tabs. This library does it once, correctly
 
-📖 **[Documentation & live demos →](https://eugenepokalyuk.github.io/react-stateful-hooks/)** — every hook with an interactive example (English / Русский).
+📖 **[Documentation & live demos →](https://eugenepokalyuk.github.io/react-stateful-hooks/)** — every hook with an interactive example (English / Русский)
 
 ## Hooks at a glance
 
@@ -42,7 +42,7 @@ ESM + CJS + types, and its only runtime dependency is the
 ## Why react-stateful-hooks?
 
 The hooks space is crowded — here is where this library is deliberately
-different. The focus is correctness under SSR and across tabs, not breadth.
+different. The focus is correctness under SSR and across tabs, not breadth
 
 |                                        | react-stateful-hooks  | usehooks-ts |      react-use      |
 | -------------------------------------- | :-------------------: | :---------: | :-----------------: |
@@ -56,7 +56,7 @@ different. The focus is correctness under SSR and across tabs, not breadth.
 
 If you need hundreds of hooks, reach for `react-use`. If you want a handful of
 browser-state hooks that behave correctly in Next.js / Remix and across tabs,
-this is for you.
+this is for you
 
 ## Install
 
@@ -327,7 +327,7 @@ npm run build     # ESM + CJS + .d.ts via Vite library mode
 ## Contributing
 
 Issues and PRs are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for the
-workflow and conventions. Changes are tracked in [CHANGELOG.md](./CHANGELOG.md).
+workflow and conventions. Changes are tracked in [CHANGELOG.md](./CHANGELOG.md)
 
 ## License
 
