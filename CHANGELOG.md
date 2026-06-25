@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   comparison table vs. `usehooks-ts` and `react-use`.
 - More discoverable npm keywords (`ssr-safe`, `hydration`, `nextjs`, `remix`,
   `usesyncexternalstore`, `react-hooks`).
+- Bilingual (English / Русский) documentation site with live demos and search,
+  deployed to GitHub Pages and linked from the README.
+
+### Changed
+
+- `homepage` now points to the documentation site so npm surfaces it as the
+  package's homepage link.
 
 ### Fixed
 
