@@ -1,0 +1,41 @@
+---
+title: useHydrated
+---
+
+import { HydratedDemo } from '@/components/demos';
+
+# useHydrated
+
+Возвращает `false` на сервере и при первом клиентском рендере, затем `true` —
+после гидрации компонента.
+
+<HydratedDemo />
+
+Хук построен на `useSyncExternalStore`, поэтому первый клиентский рендер берёт
+серверный снимок (`false`) и совпадает с серверной разметкой — **никакого
+hydration mismatch**, — а сразу после коммита переключается в `true`. Используйте
+его, чтобы отрисовывать только-клиентский UI, который иначе разошёлся бы между
+сервером и клиентом.
+
+```tsx
+import { useHydrated } from 'react-stateful-hooks';
+
+function Clock() {
+  const hydrated = useHydrated();
+
+  // Сначала одинаково на сервере и клиенте, потом только-клиентское значение.
+  return <span>{hydrated ? new Date().toLocaleTimeString() : null}</span>;
+}
+```
+
+## Сигнатура
+
+```ts
+const hydrated = useHydrated(): boolean;
+```
+
+## Когда использовать
+
+- Рендер значений, существующих только в браузере (`Date`, `window`, `localStorage`).
+- Плейсхолдер при SSR с подменой на клиентский контент после монтирования.
+- Уход от предупреждения «text content did not match» без обвязки `useEffect` + `useState`.

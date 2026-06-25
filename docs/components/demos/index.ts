@@ -6,3 +6,5 @@ export { NetworkStateDemo } from './NetworkStateDemo';
 export { CopyToClipboardDemo } from './CopyToClipboardDemo';
 export { PrefersColorSchemeDemo } from './PrefersColorSchemeDemo';
 export { PrefersReducedMotionDemo } from './PrefersReducedMotionDemo';
+export { HydratedDemo } from './HydratedDemo';
+export { CookieStateDemo } from './CookieStateDemo';

@@ -1,0 +1,86 @@
+---
+title: useCookieState
+---
+
+import { CookieStateDemo } from '@/components/demos';
+
+# useCookieState
+
+`useState`, сохраняющийся в `document.cookie`. В отличие от `localStorage`, cookie
+отправляются с каждым запросом — поэтому значение можно прочитать на **сервере** и
+передать через `serverValue` для SSR-рендера **без вспышки** (идеально для темы
+или локали).
+
+<CookieStateDemo />
+
+```tsx
+import { useCookieState } from 'react-stateful-hooks';
+
+const [theme, setTheme, clearTheme] = useCookieState('theme', 'light');
+```
+
+## Сигнатура
+
+```ts
+const [value, setValue, removeValue] = useCookieState<T>(
+  name: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    serverValue?: string | null; // raw cookie, прочитанный на сервере (SSR)
+    path?: string; // по умолчанию: '/'
+    domain?: string;
+    maxAge?: number; // секунды
+    expires?: Date;
+    sameSite?: 'lax' | 'strict' | 'none'; // по умолчанию: 'lax' ('none' влечёт secure)
+    secure?: boolean;
+  },
+);
+```
+
+| Возвращает | Описание |
+| --- | --- |
+| `value` | Текущее значение (типа `T`) |
+| `setValue` | Принимает значение **или** апдейтер `(prev) => next`, как `useState` |
+| `removeValue` | Истекает cookie и сбрасывает состояние к `defaultValue` |
+
+## Что стоит знать о поведении
+
+- **SSR-безопасность** — на сервере возвращает `serverValue` (распарсенный) или
+  `defaultValue`, затем читает cookie на клиенте.
+- **SSR без вспышки** — передайте cookie запроса как `serverValue`, чтобы значение
+  отрисовалось при SSR, а не мелькнул дефолт.
+- **Устойчивость** — битое значение cookie откатывается на дефолт.
+- **Синхронизация в пределах вкладки** — хуки на один и тот же cookie синхронны. У
+  cookie нет события смены между вкладками, поэтому другие вкладки обновятся при
+  следующем рендере.
+
+### Тема без вспышки в Next.js (App Router)
+
+```tsx
+// app/page.tsx — читаем cookie на сервере и передаём в хук
+import { cookies } from 'next/headers';
+
+export default async function Page() {
+  const theme = (await cookies()).get('theme')?.value;
+  return <ThemeToggle serverTheme={theme} />;
+}
+```
+
+```tsx
+'use client';
+import { useCookieState } from 'react-stateful-hooks';
+
+function ThemeToggle({ serverTheme }: { serverTheme?: string }) {
+  const [theme, setTheme] = useCookieState('theme', 'light', {
+    maxAge: 60 * 60 * 24 * 365, // год
+    serverValue: serverTheme, // никакой вспышки неправильной темы при первом рендере
+  });
+
+  return (
+    <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
+      Тема: {theme}
+    </button>
+  );
+}
+```

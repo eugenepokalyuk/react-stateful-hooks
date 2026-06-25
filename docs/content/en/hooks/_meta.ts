@@ -7,4 +7,6 @@ export default {
   'use-copy-to-clipboard': 'useCopyToClipboard',
   'use-prefers-color-scheme': 'usePrefersColorScheme',
   'use-prefers-reduced-motion': 'usePrefersReducedMotion',
+  'use-hydrated': 'useHydrated',
+  'use-cookie-state': 'useCookieState',
 };

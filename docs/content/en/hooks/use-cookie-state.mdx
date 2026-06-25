@@ -1,0 +1,84 @@
+---
+title: useCookieState
+---
+
+import { CookieStateDemo } from '@/components/demos';
+
+# useCookieState
+
+A `useState` that persists to `document.cookie`. Unlike `localStorage`, cookies
+are sent with every request — so the value can be read on the **server** and
+passed via `serverValue` for a flash-free SSR render (ideal for theme or locale).
+
+<CookieStateDemo />
+
+```tsx
+import { useCookieState } from 'react-stateful-hooks';
+
+const [theme, setTheme, clearTheme] = useCookieState('theme', 'light');
+```
+
+## Signature
+
+```ts
+const [value, setValue, removeValue] = useCookieState<T>(
+  name: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    serverValue?: string | null; // raw cookie read on the server (SSR)
+    path?: string; // default: '/'
+    domain?: string;
+    maxAge?: number; // seconds
+    expires?: Date;
+    sameSite?: 'lax' | 'strict' | 'none'; // default: 'lax' ('none' implies secure)
+    secure?: boolean;
+  },
+);
+```
+
+| Return | Description |
+| --- | --- |
+| `value` | Current value (typed as `T`) |
+| `setValue` | Accepts a value **or** an updater `(prev) => next`, like `useState` |
+| `removeValue` | Expires the cookie and resets state to `defaultValue` |
+
+## Behaviour worth knowing
+
+- **SSR-safe** — returns `serverValue` (parsed) or `defaultValue` on the server,
+  then reads the cookie on the client.
+- **Flash-free SSR** — pass the request cookie as `serverValue` so the value
+  renders during SSR instead of flashing the default.
+- **Resilient** — a corrupted cookie value falls back to the default.
+- **Same-tab sync** — hooks bound to the same cookie name stay in sync. Cookies
+  have no cross-tab change event, so other tabs update on their next render.
+
+### Flash-free theme in Next.js (App Router)
+
+```tsx
+// app/page.tsx — read the cookie on the server, hand it to the hook
+import { cookies } from 'next/headers';
+
+export default async function Page() {
+  const theme = (await cookies()).get('theme')?.value;
+  return <ThemeToggle serverTheme={theme} />;
+}
+```
+
+```tsx
+'use client';
+import { useCookieState } from 'react-stateful-hooks';
+
+function ThemeToggle({ serverTheme }: { serverTheme?: string }) {
+  const [theme, setTheme] = useCookieState('theme', 'light', {
+    maxAge: 60 * 60 * 24 * 365, // one year
+    serverValue: serverTheme, // no flash of the wrong theme on first paint
+  });
+
+  return (
+    <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
+      Theme: {theme}
+    </button>
+  );
+}
+```
