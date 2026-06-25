@@ -1,0 +1,38 @@
+---
+title: useCopyToClipboard
+---
+
+import { CopyToClipboardDemo } from '@/components/demos';
+
+# useCopyToClipboard
+
+Возвращает функцию `copy` и состояние последней попытки копирования. Использует
+асинхронный Clipboard API (требует безопасного контекста); когда он недоступен,
+`copy` возвращает `false` и записывает `error`, а не бросает исключение. Поле
+`copied` само сбрасывается в `false` через `resetDelay` мс — фидбек «Скопировано!»
+не требует ручного таймера.
+
+<CopyToClipboardDemo />
+
+```tsx
+import { useCopyToClipboard } from 'react-stateful-hooks';
+
+const [copy, { copied }] = useCopyToClipboard();
+
+<button onClick={() => copy(url)}>{copied ? 'Скопировано!' : 'Копировать'}</button>;
+```
+
+## Сигнатура
+
+```ts
+const [copy, { value, error, copied }] = useCopyToClipboard(options?: {
+  resetDelay?: number; // мс до сброса `copied`; 0 = никогда. по умолчанию: 2000
+});
+```
+
+| Поле | Описание |
+| --- | --- |
+| `copy(text)` | Асинхронная функция; `true` при успехе, `false` при ошибке |
+| `value` | Последняя успешно скопированная строка |
+| `error` | Ошибка последней неудачной попытки, если была |
+| `copied` | Кратко `true` после успешного копирования, затем авто-сброс |

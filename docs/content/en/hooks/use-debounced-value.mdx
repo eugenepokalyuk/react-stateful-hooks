@@ -1,0 +1,33 @@
+---
+title: useDebouncedValue
+---
+
+import { DebouncedValueDemo } from '@/components/demos';
+
+# useDebouncedValue
+
+Returns a debounced copy of a value that only updates after the delay passes
+without further changes — rapid updates collapse into a single trailing update.
+
+<DebouncedValueDemo />
+
+```tsx
+import { useState, useEffect } from 'react';
+import { useDebouncedValue } from 'react-stateful-hooks';
+
+const [query, setQuery] = useState('');
+const debouncedQuery = useDebouncedValue(query, 300);
+
+useEffect(() => {
+  search(debouncedQuery);
+}, [debouncedQuery]);
+```
+
+## Signature
+
+```ts
+const debounced = useDebouncedValue<T>(value: T, delayMs: number): T;
+```
+
+Useful for search inputs, resize handlers, or any value that drives an
+expensive effect.

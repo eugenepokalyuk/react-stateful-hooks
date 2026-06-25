@@ -1,0 +1,26 @@
+---
+title: useMediaQuery
+---
+
+import { MediaQueryDemo } from '@/components/demos';
+
+# useMediaQuery
+
+Отслеживает совпадение CSS media-запроса и перерисовывается при изменении.
+SSR-безопасен — на сервере возвращает `defaultState` (по умолчанию `false`),
+поэтому не трогает `window.matchMedia` до гидрации.
+
+<MediaQueryDemo />
+
+```tsx
+import { useMediaQuery } from 'react-stateful-hooks';
+
+const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+const isWide = useMediaQuery('(min-width: 1024px)');
+```
+
+## Сигнатура
+
+```ts
+const matches = useMediaQuery(query: string, defaultState?: boolean): boolean;
+```

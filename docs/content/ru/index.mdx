@@ -1,0 +1,53 @@
+---
+title: Введение
+---
+
+# react-stateful-hooks
+
+**SSR-first React-хуки для состояния браузера — без рассинхрона гидрации, на базе `useSyncExternalStore`.**
+
+Небольшая, хорошо типизированная коллекция React-хуков для состояния браузера.
+Каждый хук построен на официальном `useSyncExternalStore`, поэтому отдаёт
+стабильное значение на сервере и **гидрируется без рассинхрона** — именно то,
+что большинство библиотек хуков делает неправильно. Tree-shakeable, ~2&nbsp;КБ
+в gzip, поставляется в ESM + CJS + типах.
+
+```bash
+npm install react-stateful-hooks
+```
+
+import { LocalStorageDemo } from '@/components/demos';
+
+<LocalStorageDemo />
+
+## Почему эта библиотека?
+
+Хуков много — вот чем эта библиотека намеренно отличается. Фокус на корректности
+при SSR и между вкладками, а не на количестве хуков.
+
+| | react-stateful-hooks | usehooks-ts | react-use |
+| --- | :---: | :---: | :---: |
+| SSR-безопасность через `useSyncExternalStore` | ✅ каждый хук | ⚠️ частично | ⚠️ частично / устар. |
+| Синхронизация storage между вкладками | ✅ из коробки | ❌ | ⚠️ |
+| Переживает битый JSON / ошибки квоты | ✅ откат к дефолту | ❌ | ❌ |
+| Синхронизация внутри одной вкладки | ✅ | ⚠️ | ⚠️ |
+| Размер бандла | ~2 КБ, tree-shakeable | малый | большой |
+| Runtime-зависимости | 1 (офиц. shim) | 0 | много |
+| TypeScript-first | ✅ | ✅ | ⚠️ |
+
+## Хуки
+
+import { Cards } from 'nextra/components';
+
+<Cards>
+  <Cards.Card title="useLocalStorageState" href="/ru/hooks/use-local-storage-state" arrow />
+  <Cards.Card title="useSessionStorageState" href="/ru/hooks/use-session-storage-state" arrow />
+  <Cards.Card title="useDebouncedValue" href="/ru/hooks/use-debounced-value" arrow />
+  <Cards.Card title="useMediaQuery" href="/ru/hooks/use-media-query" arrow />
+  <Cards.Card title="useNetworkState" href="/ru/hooks/use-network-state" arrow />
+  <Cards.Card title="useCopyToClipboard" href="/ru/hooks/use-copy-to-clipboard" arrow />
+  <Cards.Card title="usePrefersColorScheme" href="/ru/hooks/use-prefers-color-scheme" arrow />
+  <Cards.Card title="usePrefersReducedMotion" href="/ru/hooks/use-prefers-reduced-motion" arrow />
+</Cards>
+
+`react >= 17` — peer-зависимость.

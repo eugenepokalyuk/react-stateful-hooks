@@ -1,0 +1,37 @@
+---
+title: useSessionStorageState
+---
+
+import { SessionStorageDemo } from '@/components/demos';
+
+# useSessionStorageState
+
+Тот же API и гарантии, что у [`useLocalStorageState`](/ru/hooks/use-local-storage-state),
+но на основе `sessionStorage` — состояние живёт, пока открыта вкладка. Подходит
+для шагов визарда, позиций прокрутки и любого временного состояния на сессию.
+
+<SessionStorageDemo />
+
+```tsx
+import { useSessionStorageState } from 'react-stateful-hooks';
+
+const [step, setStep] = useSessionStorageState('wizard:step', 0);
+```
+
+## Сигнатура
+
+```ts
+const [value, setValue, removeValue] = useSessionStorageState<T>(
+  key: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    syncTabs?: boolean; // по умолчанию: true
+  },
+);
+```
+
+Сериализация, устойчивость и синхронизация внутри вкладки идентичны
+`useLocalStorageState`. Учтите, что `sessionStorage` действует в пределах одной
+вкладки, поэтому синхронизация между отдельными вкладками через событие `storage`
+здесь не применяется.

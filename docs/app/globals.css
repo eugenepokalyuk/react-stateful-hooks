@@ -1,0 +1,9 @@
+/* Push the external-link arrow on sidebar links (GitHub, npm) to the very end
+   of the row instead of sitting right after the label. */
+.nextra-sidebar a[target='_blank'] {
+  align-items: center;
+}
+
+.nextra-sidebar a[target='_blank'] svg {
+  margin-inline-start: auto;
+}

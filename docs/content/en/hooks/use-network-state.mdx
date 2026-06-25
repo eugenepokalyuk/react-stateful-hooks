@@ -1,0 +1,32 @@
+---
+title: useNetworkState
+---
+
+import { NetworkStateDemo } from '@/components/demos';
+
+# useNetworkState
+
+Tracks the browser's online/offline status. SSR-safe — returns
+`{ online: defaultOnline }` (default `true`) on the server. `since` is the time
+of the last status change, or `undefined` until the first transition.
+
+<NetworkStateDemo />
+
+```tsx
+import { useNetworkState } from 'react-stateful-hooks';
+
+const { online, since } = useNetworkState();
+
+if (!online) return <Banner>You are offline.</Banner>;
+```
+
+## Signature
+
+```ts
+const { online, since } = useNetworkState(defaultOnline?: boolean); // default: true
+```
+
+| Field | Description |
+| --- | --- |
+| `online` | `true` when the browser reports connectivity |
+| `since` | `Date` of the last online/offline transition, or `undefined` |

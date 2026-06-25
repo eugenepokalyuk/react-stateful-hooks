@@ -1,0 +1,70 @@
+---
+title: useLocalStorageState
+---
+
+import { LocalStorageDemo } from '@/components/demos';
+
+# useLocalStorageState
+
+A drop-in `useState` that **persists to `localStorage`** and **stays in sync
+across browser tabs**.
+
+<LocalStorageDemo />
+
+```tsx
+import { useLocalStorageState } from 'react-stateful-hooks';
+
+function ThemeToggle() {
+  const [theme, setTheme, resetTheme] = useLocalStorageState('theme', 'light');
+
+  return (
+    <>
+      <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
+        Theme: {theme}
+      </button>
+      <button onClick={resetTheme}>Reset</button>
+    </>
+  );
+}
+```
+
+## Signature
+
+```ts
+const [value, setValue, removeValue] = useLocalStorageState<T>(
+  key: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    syncTabs?: boolean; // default: true
+  },
+);
+```
+
+| Return | Description |
+| --- | --- |
+| `value` | Current value (typed as `T`) |
+| `setValue` | Accepts a value **or** an updater `(prev) => next`, like `useState` |
+| `removeValue` | Clears the key from storage and resets state to `defaultValue` |
+
+## Behaviour worth knowing
+
+- **SSR-safe** — built on `useSyncExternalStore`, so it returns `defaultValue`
+  on the server and hydrates without a mismatch, then reads storage on the client.
+- **Resilient** — corrupted JSON or a `getItem`/`setItem` failure (quota,
+  private mode) falls back to the default and keeps the in-memory value instead
+  of throwing.
+- **Cross-tab sync** — listens to the `storage` event and updates state when
+  another tab writes the same key. Disable with `{ syncTabs: false }`. Hooks in
+  the _same_ tab always stay in sync, regardless of this flag.
+- **Custom serialization** — pass a `serializer` to support `Date`, `Map`,
+  `BigInt`, or a compact wire format.
+
+```tsx
+const [since, setSince] = useLocalStorageState('since', new Date(), {
+  serializer: {
+    parse: (raw) => new Date(JSON.parse(raw)),
+    stringify: (value) => JSON.stringify(value.getTime()),
+  },
+});
+```

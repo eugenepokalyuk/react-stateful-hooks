@@ -1,0 +1,29 @@
+{
+  "name": "react-stateful-hooks-docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "touch out/.nojekyll && pagefind --site out --output-subdir _pagefind && node scripts/make-redirect.mjs",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "15.5.19",
+    "nextra": "4.6.1",
+    "nextra-theme-docs": "4.6.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-stateful-hooks": "file:.."
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.21",
+    "@types/react": "^19.0.0",
+    "pagefind": "^1.5.2",
+    "typescript": "^5.5.3"
+  },
+  "overrides": {
+    "zod": "4.1.12"
+  }
+}

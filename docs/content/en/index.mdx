@@ -1,0 +1,52 @@
+---
+title: Introduction
+---
+
+# react-stateful-hooks
+
+**SSR-first React hooks for browser state — zero hydration mismatches, built on `useSyncExternalStore`.**
+
+A small, well-typed collection of React hooks for browser state. Every hook is
+built on React's official `useSyncExternalStore`, so it renders a stable value
+on the server and **hydrates without a mismatch** — the thing most hook
+libraries get wrong. Tree-shakeable, ~2&nbsp;kB gzipped, ships ESM + CJS + types.
+
+```bash
+npm install react-stateful-hooks
+```
+
+import { LocalStorageDemo } from '@/components/demos';
+
+<LocalStorageDemo />
+
+## Why this library?
+
+The hooks space is crowded — here is where it is deliberately different. The
+focus is correctness under SSR and across tabs, not breadth.
+
+| | react-stateful-hooks | usehooks-ts | react-use |
+| --- | :---: | :---: | :---: |
+| SSR-safe via `useSyncExternalStore` | ✅ every hook | ⚠️ partial | ⚠️ partial / legacy |
+| Cross-tab storage sync | ✅ built in | ❌ | ⚠️ |
+| Survives corrupted JSON / quota errors | ✅ falls back | ❌ | ❌ |
+| Same-tab sync across components | ✅ | ⚠️ | ⚠️ |
+| Bundle size | ~2 kB, tree-shakeable | small | large |
+| Runtime dependencies | 1 (official shim) | 0 | many |
+| TypeScript-first | ✅ | ✅ | ⚠️ |
+
+## The hooks
+
+import { Cards } from 'nextra/components';
+
+<Cards>
+  <Cards.Card title="useLocalStorageState" href="/en/hooks/use-local-storage-state" arrow />
+  <Cards.Card title="useSessionStorageState" href="/en/hooks/use-session-storage-state" arrow />
+  <Cards.Card title="useDebouncedValue" href="/en/hooks/use-debounced-value" arrow />
+  <Cards.Card title="useMediaQuery" href="/en/hooks/use-media-query" arrow />
+  <Cards.Card title="useNetworkState" href="/en/hooks/use-network-state" arrow />
+  <Cards.Card title="useCopyToClipboard" href="/en/hooks/use-copy-to-clipboard" arrow />
+  <Cards.Card title="usePrefersColorScheme" href="/en/hooks/use-prefers-color-scheme" arrow />
+  <Cards.Card title="usePrefersReducedMotion" href="/en/hooks/use-prefers-reduced-motion" arrow />
+</Cards>
+
+`react >= 17` is a peer dependency.

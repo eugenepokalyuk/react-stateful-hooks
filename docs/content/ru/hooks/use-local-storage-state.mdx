@@ -1,0 +1,72 @@
+---
+title: useLocalStorageState
+---
+
+import { LocalStorageDemo } from '@/components/demos';
+
+# useLocalStorageState
+
+Замена `useState`, которая **сохраняет значение в `localStorage`** и **держит
+его синхронным между вкладками браузера**.
+
+<LocalStorageDemo />
+
+```tsx
+import { useLocalStorageState } from 'react-stateful-hooks';
+
+function ThemeToggle() {
+  const [theme, setTheme, resetTheme] = useLocalStorageState('theme', 'light');
+
+  return (
+    <>
+      <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
+        Theme: {theme}
+      </button>
+      <button onClick={resetTheme}>Reset</button>
+    </>
+  );
+}
+```
+
+## Сигнатура
+
+```ts
+const [value, setValue, removeValue] = useLocalStorageState<T>(
+  key: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    syncTabs?: boolean; // по умолчанию: true
+  },
+);
+```
+
+| Возвращает | Описание |
+| --- | --- |
+| `value` | Текущее значение (типа `T`) |
+| `setValue` | Принимает значение **или** апдейтер `(prev) => next`, как `useState` |
+| `removeValue` | Удаляет ключ из storage и сбрасывает состояние к `defaultValue` |
+
+## Что стоит знать о поведении
+
+- **SSR-безопасность** — построен на `useSyncExternalStore`, поэтому возвращает
+  `defaultValue` на сервере и гидрируется без рассинхрона, а затем читает storage
+  на клиенте.
+- **Устойчивость** — битый JSON или ошибка `getItem`/`setItem` (квота, приватный
+  режим) приводит к откату на дефолт с сохранением значения в памяти, а не к
+  исключению.
+- **Синхронизация между вкладками** — слушает событие `storage` и обновляет
+  состояние, когда другая вкладка пишет тот же ключ. Отключается через
+  `{ syncTabs: false }`. Хуки в _одной_ вкладке всегда синхронны, независимо от
+  этого флага.
+- **Своя сериализация** — передайте `serializer` для поддержки `Date`, `Map`,
+  `BigInt` или компактного формата.
+
+```tsx
+const [since, setSince] = useLocalStorageState('since', new Date(), {
+  serializer: {
+    parse: (raw) => new Date(JSON.parse(raw)),
+    stringify: (value) => JSON.stringify(value.getTime()),
+  },
+});
+```

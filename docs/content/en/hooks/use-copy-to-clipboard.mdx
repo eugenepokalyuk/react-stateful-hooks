@@ -1,0 +1,37 @@
+---
+title: useCopyToClipboard
+---
+
+import { CopyToClipboardDemo } from '@/components/demos';
+
+# useCopyToClipboard
+
+Returns a `copy` function plus the state of the last copy attempt. Uses the
+async Clipboard API (requires a secure context); when it's unavailable, `copy`
+resolves `false` and records an `error` instead of throwing. `copied` flips back
+to `false` after `resetDelay` ms, so "Copied!" feedback needs no manual timer.
+
+<CopyToClipboardDemo />
+
+```tsx
+import { useCopyToClipboard } from 'react-stateful-hooks';
+
+const [copy, { copied }] = useCopyToClipboard();
+
+<button onClick={() => copy(url)}>{copied ? 'Copied!' : 'Copy link'}</button>;
+```
+
+## Signature
+
+```ts
+const [copy, { value, error, copied }] = useCopyToClipboard(options?: {
+  resetDelay?: number; // ms until `copied` resets; 0 = never. default: 2000
+});
+```
+
+| Field | Description |
+| --- | --- |
+| `copy(text)` | Async function; resolves `true` on success, `false` on failure |
+| `value` | The last successfully copied string |
+| `error` | The error from the last failed attempt, if any |
+| `copied` | `true` briefly after a successful copy, then auto-resets |

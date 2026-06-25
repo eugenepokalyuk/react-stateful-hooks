@@ -1,0 +1,29 @@
+---
+title: usePrefersReducedMotion
+---
+
+import { PrefersReducedMotionDemo } from '@/components/demos';
+
+# usePrefersReducedMotion
+
+Tracks whether the user has requested reduced motion via
+`(prefers-reduced-motion: reduce)` and re-renders when it changes. SSR-safe —
+returns `defaultValue` (default `false`) on the server.
+
+<PrefersReducedMotionDemo />
+
+```tsx
+import { usePrefersReducedMotion } from 'react-stateful-hooks';
+
+const reduceMotion = usePrefersReducedMotion();
+
+<motion.div animate={reduceMotion ? undefined : { x: 100 }} />;
+```
+
+## Signature
+
+```ts
+const reduceMotion = usePrefersReducedMotion(defaultValue?: boolean); // default: false
+```
+
+Built on top of [`useMediaQuery`](/en/hooks/use-media-query).

@@ -1,0 +1,29 @@
+---
+title: usePrefersColorScheme
+---
+
+import { PrefersColorSchemeDemo } from '@/components/demos';
+
+# usePrefersColorScheme
+
+Tracks the user's preferred color scheme via `(prefers-color-scheme: dark)` and
+re-renders when it changes. SSR-safe — returns `defaultScheme` (default
+`'light'`) on the server.
+
+<PrefersColorSchemeDemo />
+
+```tsx
+import { usePrefersColorScheme } from 'react-stateful-hooks';
+
+const scheme = usePrefersColorScheme(); // 'light' | 'dark'
+
+return <div data-theme={scheme} />;
+```
+
+## Signature
+
+```ts
+const scheme = usePrefersColorScheme(defaultScheme?: 'light' | 'dark'); // default: 'light'
+```
+
+Built on top of [`useMediaQuery`](/en/hooks/use-media-query).
