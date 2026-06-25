@@ -1,6 +1,7 @@
 'use client';
 
 import { usePrefersReducedMotion } from 'react-stateful-hooks';
+
 import { DemoBox } from './DemoBox';
 
 export function PrefersReducedMotionDemo() {
@@ -11,6 +12,7 @@ export function PrefersReducedMotionDemo() {
       <div>
         Reduced motion requested: <strong>{String(reduceMotion)}</strong>
       </div>
+
       <div
         style={{
           width: 32,

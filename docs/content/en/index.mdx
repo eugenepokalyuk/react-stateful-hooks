@@ -4,12 +4,12 @@ title: Introduction
 
 # react-stateful-hooks
 
-**SSR-first React hooks for browser state — zero hydration mismatches, built on `useSyncExternalStore`.**
+**SSR-first React hooks for browser state — zero hydration mismatches, built on `useSyncExternalStore`**
 
 A small, well-typed collection of React hooks for browser state. Every hook is
 built on React's official `useSyncExternalStore`, so it renders a stable value
 on the server and **hydrates without a mismatch** — the thing most hook
-libraries get wrong. Tree-shakeable, ~2&nbsp;kB gzipped, ships ESM + CJS + types.
+libraries get wrong. Tree-shakeable, ~2&nbsp;kB gzipped, ships ESM + CJS + types
 
 ```bash
 npm install react-stateful-hooks
@@ -22,7 +22,7 @@ import { LocalStorageDemo } from '@/components/demos';
 ## Why this library?
 
 The hooks space is crowded — here is where it is deliberately different. The
-focus is correctness under SSR and across tabs, not breadth.
+focus is correctness under SSR and across tabs, not breadth
 
 | | react-stateful-hooks | usehooks-ts | react-use |
 | --- | :---: | :---: | :---: |
@@ -51,4 +51,4 @@ import { Cards } from 'nextra/components';
   <Cards.Card title="useCookieState" href="/en/hooks/use-cookie-state" arrow />
 </Cards>
 
-`react >= 17` is a peer dependency.
+`react >= 17` is a peer dependency

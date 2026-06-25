@@ -8,7 +8,7 @@ import { SessionStorageDemo } from '@/components/demos';
 
 Тот же API и гарантии, что у [`useLocalStorageState`](/ru/hooks/use-local-storage-state),
 но на основе `sessionStorage` — состояние живёт, пока открыта вкладка. Подходит
-для шагов визарда, позиций прокрутки и любого временного состояния на сессию.
+для шагов визарда, позиций прокрутки и любого временного состояния на сессию
 
 <SessionStorageDemo />
 
@@ -34,4 +34,4 @@ const [value, setValue, removeValue] = useSessionStorageState<T>(
 Сериализация, устойчивость и синхронизация внутри вкладки идентичны
 `useLocalStorageState`. Учтите, что `sessionStorage` действует в пределах одной
 вкладки, поэтому синхронизация между отдельными вкладками через событие `storage`
-здесь не применяется.
+здесь не применяется

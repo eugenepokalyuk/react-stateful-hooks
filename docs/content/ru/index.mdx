@@ -4,13 +4,13 @@ title: Введение
 
 # react-stateful-hooks
 
-**SSR-first React-хуки для состояния браузера — без рассинхрона гидрации, на базе `useSyncExternalStore`.**
+**SSR-first React-хуки для состояния браузера — без рассинхрона гидрации, на базе `useSyncExternalStore`**
 
 Небольшая, хорошо типизированная коллекция React-хуков для состояния браузера.
 Каждый хук построен на официальном `useSyncExternalStore`, поэтому отдаёт
 стабильное значение на сервере и **гидрируется без рассинхрона** — именно то,
 что большинство библиотек хуков делает неправильно. Tree-shakeable, ~2&nbsp;КБ
-в gzip, поставляется в ESM + CJS + типах.
+в gzip, поставляется в ESM + CJS + типах
 
 ```bash
 npm install react-stateful-hooks
@@ -23,7 +23,7 @@ import { LocalStorageDemo } from '@/components/demos';
 ## Почему эта библиотека?
 
 Хуков много — вот чем эта библиотека намеренно отличается. Фокус на корректности
-при SSR и между вкладками, а не на количестве хуков.
+при SSR и между вкладками, а не на количестве хуков
 
 | | react-stateful-hooks | usehooks-ts | react-use |
 | --- | :---: | :---: | :---: |
@@ -52,4 +52,4 @@ import { Cards } from 'nextra/components';
   <Cards.Card title="useCookieState" href="/ru/hooks/use-cookie-state" arrow />
 </Cards>
 
-`react >= 17` — peer-зависимость.
+`react >= 17` — peer-зависимость

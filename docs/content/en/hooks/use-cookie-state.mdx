@@ -8,7 +8,7 @@ import { CookieStateDemo } from '@/components/demos';
 
 A `useState` that persists to `document.cookie`. Unlike `localStorage`, cookies
 are sent with every request — so the value can be read on the **server** and
-passed via `serverValue` for a flash-free SSR render (ideal for theme or locale).
+passed via `serverValue` for a flash-free SSR render (ideal for theme or locale)
 
 <CookieStateDemo />
 
@@ -46,12 +46,12 @@ const [value, setValue, removeValue] = useCookieState<T>(
 ## Behaviour worth knowing
 
 - **SSR-safe** — returns `serverValue` (parsed) or `defaultValue` on the server,
-  then reads the cookie on the client.
+  then reads the cookie on the client
 - **Flash-free SSR** — pass the request cookie as `serverValue` so the value
-  renders during SSR instead of flashing the default.
-- **Resilient** — a corrupted cookie value falls back to the default.
+  renders during SSR instead of flashing the default
+- **Resilient** — a corrupted cookie value falls back to the default
 - **Same-tab sync** — hooks bound to the same cookie name stay in sync. Cookies
-  have no cross-tab change event, so other tabs update on their next render.
+  have no cross-tab change event, so other tabs update on their next render
 
 ### Flash-free theme in Next.js (App Router)
 
@@ -61,12 +61,14 @@ import { cookies } from 'next/headers';
 
 export default async function Page() {
   const theme = (await cookies()).get('theme')?.value;
+
   return <ThemeToggle serverTheme={theme} />;
 }
 ```
 
 ```tsx
 'use client';
+
 import { useCookieState } from 'react-stateful-hooks';
 
 function ThemeToggle({ serverTheme }: { serverTheme?: string }) {

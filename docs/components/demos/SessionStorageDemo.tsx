@@ -1,6 +1,7 @@
 'use client';
 
 import { useSessionStorageState } from 'react-stateful-hooks';
+
 import { DemoBox, buttonStyle } from './DemoBox';
 
 const steps = ['Account', 'Profile', 'Confirm'];
@@ -13,20 +14,22 @@ export function SessionStorageDemo() {
       <strong>
         Step {step + 1} / {steps.length}: {steps[step]}
       </strong>
+
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <button
           style={buttonStyle}
           disabled={step === 0}
           onClick={() => setStep((s) => Math.max(0, s - 1))}
         >
-          Back
+          {'Back'}
         </button>
+
         <button
           style={buttonStyle}
           disabled={step === steps.length - 1}
           onClick={() => setStep((s) => Math.min(steps.length - 1, s + 1))}
         >
-          Next
+          {'Next'}
         </button>
       </div>
     </DemoBox>

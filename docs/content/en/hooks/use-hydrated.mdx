@@ -7,14 +7,14 @@ import { HydratedDemo } from '@/components/demos';
 # useHydrated
 
 Returns `false` on the server and during the first client render, then `true`
-once the component has hydrated.
+once the component has hydrated
 
 <HydratedDemo />
 
 Because it is built on `useSyncExternalStore`, the first client render uses the
 server snapshot (`false`), so it matches the server markup and **never triggers
 a hydration mismatch** — then it updates to `true` right after commit. Use it to
-gate browser-only UI that would otherwise differ between server and client.
+gate browser-only UI that would otherwise differ between server and client
 
 ```tsx
 import { useHydrated } from 'react-stateful-hooks';
@@ -22,7 +22,7 @@ import { useHydrated } from 'react-stateful-hooks';
 function Clock() {
   const hydrated = useHydrated();
 
-  // Renders the same thing on both sides first, then the client-only value.
+  // Renders the same thing on both sides first, then the client-only value
   return <span>{hydrated ? new Date().toLocaleTimeString() : null}</span>;
 }
 ```
@@ -35,6 +35,6 @@ const hydrated = useHydrated(): boolean;
 
 ## When to use it
 
-- Rendering values that only exist in the browser (`Date`, `window`, `localStorage`).
-- Showing a placeholder during SSR and swapping in client-only content after mount.
-- Avoiding the "text content did not match" warning without `useEffect` + `useState` boilerplate.
+- Rendering values that only exist in the browser (`Date`, `window`, `localStorage`)
+- Showing a placeholder during SSR and swapping in client-only content after mount
+- Avoiding the "text content did not match" warning without `useEffect` + `useState` boilerplate

@@ -1,6 +1,7 @@
 'use client';
 
 import { usePrefersColorScheme } from 'react-stateful-hooks';
+
 import { DemoBox } from './DemoBox';
 
 export function PrefersColorSchemeDemo() {

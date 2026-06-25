@@ -11,11 +11,11 @@ stored preference and switches — so the page **flashes** the wrong theme on th
 first paint. This guide combines three pieces from this library to get it right:
 
 1. **A blocking script** ([`getColorSchemeScript`](#1-apply-the-scheme-before-paint))
-   that sets the theme on `<html>` _before_ first paint — this is what kills the flash.
+   that sets the theme on `<html>` _before_ first paint — this is what kills the flash
 2. **A persisted choice** ([`useLocalStorageState`](/en/hooks/use-local-storage-state)
-   or [`useCookieState`](/en/hooks/use-cookie-state)) that the toggle writes.
+   or [`useCookieState`](/en/hooks/use-cookie-state)) that the toggle writes
 3. **The system fallback** ([`usePrefersColorScheme`](/en/hooks/use-prefers-color-scheme))
-   for users who pick "system".
+   for users who pick "system"
 
 <DarkModeDemo />
 
@@ -24,7 +24,7 @@ first paint. This guide combines three pieces from this library to get it right:
 `getColorSchemeScript()` returns a tiny self-contained snippet. Render it as a
 **blocking** inline script in the document `<head>` so it runs before anything
 paints. It reads the stored choice, falls back to the OS preference, and sets a
-`light`/`dark` class (and `color-scheme`) on `<html>`.
+`light`/`dark` class (and `color-scheme`) on `<html>`
 
 ```tsx
 // Next.js App Router — app/layout.tsx
@@ -36,6 +36,7 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: getColorSchemeScript() }} />
       </head>
+
       <body>{children}</body>
     </html>
   );
@@ -54,29 +55,31 @@ getColorSchemeScript({
 ```
 
 > Use `suppressHydrationWarning` on `<html>` because the script mutates it before
-> React hydrates.
+> React hydrates
 
 ## 2. The toggle
 
 The toggle just reads and writes the same key. Use the **same `key`,
-`storage`, and `attribute`** you passed to `getColorSchemeScript`.
+`storage`, and `attribute`** you passed to `getColorSchemeScript`
 
 ```tsx
 'use client';
+
+import { useEffect } from 'react';
 import {
   useLocalStorageState,
   usePrefersColorScheme,
 } from 'react-stateful-hooks';
-import { useEffect } from 'react';
 
 type Choice = 'light' | 'dark' | 'system';
 
 export function ThemeToggle() {
   const [choice, setChoice] = useLocalStorageState<Choice>('theme', 'system');
   const system = usePrefersColorScheme();
+
   const scheme = choice === 'system' ? system : choice;
 
-  // Keep <html> in sync after the first paint (the script handled the first one).
+  // Keep <html> in sync after the first paint (the script handled the first one)
   useEffect(() => {
     const el = document.documentElement;
     el.classList.remove('light', 'dark');
@@ -131,4 +134,4 @@ const [choice, setChoice] = useCookieState<Choice>('theme', 'system', {
 ```
 
 Cookies are sent with every request, so you can also read `theme` on the server
-and set the class during SSR — see [`useCookieState`](/en/hooks/use-cookie-state).
+and set the class during SSR — see [`useCookieState`](/en/hooks/use-cookie-state)

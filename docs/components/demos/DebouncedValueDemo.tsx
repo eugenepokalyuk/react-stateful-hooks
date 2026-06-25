@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useDebouncedValue } from 'react-stateful-hooks';
+
 import { DemoBox, inputStyle } from './DemoBox';
 
 export function DebouncedValueDemo() {
@@ -9,7 +10,7 @@ export function DebouncedValueDemo() {
   const debounced = useDebouncedValue(value, 400);
 
   return (
-    <DemoBox hint="The debounced value only updates 400 ms after you stop typing.">
+    <DemoBox hint="The debounced value only updates 400 ms after you stop typing">
       <input
         style={inputStyle}
         value={value}
@@ -20,6 +21,7 @@ export function DebouncedValueDemo() {
         <div>
           Live: <code>{value || '∅'}</code>
         </div>
+
         <div>
           Debounced: <code>{debounced || '∅'}</code>
         </div>

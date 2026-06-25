@@ -8,7 +8,7 @@ import { NetworkStateDemo } from '@/components/demos';
 
 Отслеживает статус подключения браузера (онлайн/офлайн). SSR-безопасен — на
 сервере возвращает `{ online: defaultOnline }` (по умолчанию `true`). Поле `since`
-— время последней смены статуса или `undefined` до первого перехода.
+— время последней смены статуса или `undefined` до первого перехода
 
 <NetworkStateDemo />
 
@@ -17,7 +17,7 @@ import { useNetworkState } from 'react-stateful-hooks';
 
 const { online, since } = useNetworkState();
 
-if (!online) return <Banner>Вы офлайн.</Banner>;
+if (!online) return <Banner>Вы офлайн</Banner>;
 ```
 
 ## Сигнатура

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMediaQuery } from 'react-stateful-hooks';
+
 import { DemoBox } from './DemoBox';
 
 export function MediaQueryDemo() {

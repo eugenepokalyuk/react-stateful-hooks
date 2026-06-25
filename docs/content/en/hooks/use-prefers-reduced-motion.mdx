@@ -8,7 +8,7 @@ import { PrefersReducedMotionDemo } from '@/components/demos';
 
 Tracks whether the user has requested reduced motion via
 `(prefers-reduced-motion: reduce)` and re-renders when it changes. SSR-safe —
-returns `defaultValue` (default `false`) on the server.
+returns `defaultValue` (default `false`) on the server
 
 <PrefersReducedMotionDemo />
 
@@ -26,4 +26,4 @@ const reduceMotion = usePrefersReducedMotion();
 const reduceMotion = usePrefersReducedMotion(defaultValue?: boolean); // default: false
 ```
 
-Built on top of [`useMediaQuery`](/en/hooks/use-media-query).
+Built on top of [`useMediaQuery`](/en/hooks/use-media-query)

@@ -8,7 +8,7 @@ import { PrefersColorSchemeDemo } from '@/components/demos';
 
 Tracks the user's preferred color scheme via `(prefers-color-scheme: dark)` and
 re-renders when it changes. SSR-safe — returns `defaultScheme` (default
-`'light'`) on the server.
+`'light'`) on the server
 
 <PrefersColorSchemeDemo />
 
@@ -26,4 +26,4 @@ return <div data-theme={scheme} />;
 const scheme = usePrefersColorScheme(defaultScheme?: 'light' | 'dark'); // default: 'light'
 ```
 
-Built on top of [`useMediaQuery`](/en/hooks/use-media-query).
+Built on top of [`useMediaQuery`](/en/hooks/use-media-query)

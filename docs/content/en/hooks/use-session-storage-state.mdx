@@ -8,7 +8,7 @@ import { SessionStorageDemo } from '@/components/demos';
 
 Same API and guarantees as [`useLocalStorageState`](/en/hooks/use-local-storage-state),
 but backed by `sessionStorage` — state lives until the tab closes. Ideal for
-wizard steps, scroll positions, or any throwaway-per-session state.
+wizard steps, scroll positions, or any throwaway-per-session state
 
 <SessionStorageDemo />
 
@@ -33,4 +33,4 @@ const [value, setValue, removeValue] = useSessionStorageState<T>(
 
 The serializer, resilience, and same-tab sync behaviour are identical to
 `useLocalStorageState`. Note that `sessionStorage` is per-tab, so cross-tab sync
-via the `storage` event does not apply between separate tabs.
+via the `storage` event does not apply between separate tabs

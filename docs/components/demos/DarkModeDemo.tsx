@@ -4,6 +4,7 @@ import {
   useLocalStorageState,
   usePrefersColorScheme,
 } from 'react-stateful-hooks';
+
 import { DemoBox, buttonStyle } from './DemoBox';
 
 type Choice = 'light' | 'dark' | 'system';
@@ -14,10 +15,11 @@ export function DarkModeDemo() {
     'system',
   );
   const system = usePrefersColorScheme();
+
   const scheme = choice === 'system' ? system : choice;
 
   return (
-    <DemoBox hint="The choice persists across reloads. Pair it with getColorSchemeScript so the page applies it before first paint — with no flash.">
+    <DemoBox hint="The choice persists across reloads. Pair it with getColorSchemeScript so the page applies it before first paint — with no flash">
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         {(['light', 'dark', 'system'] as Choice[]).map((c) => (
           <button
@@ -29,6 +31,7 @@ export function DarkModeDemo() {
           </button>
         ))}
       </div>
+
       <div
         style={{
           padding: '1rem',

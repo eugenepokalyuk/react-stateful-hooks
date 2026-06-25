@@ -7,7 +7,7 @@ import { LocalStorageDemo } from '@/components/demos';
 # useLocalStorageState
 
 A drop-in `useState` that **persists to `localStorage`** and **stays in sync
-across browser tabs**.
+across browser tabs**
 
 <LocalStorageDemo />
 
@@ -22,6 +22,7 @@ function ThemeToggle() {
       <button onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}>
         Theme: {theme}
       </button>
+
       <button onClick={resetTheme}>Reset</button>
     </>
   );
@@ -50,15 +51,15 @@ const [value, setValue, removeValue] = useLocalStorageState<T>(
 ## Behaviour worth knowing
 
 - **SSR-safe** — built on `useSyncExternalStore`, so it returns `defaultValue`
-  on the server and hydrates without a mismatch, then reads storage on the client.
+  on the server and hydrates without a mismatch, then reads storage on the client
 - **Resilient** — corrupted JSON or a `getItem`/`setItem` failure (quota,
   private mode) falls back to the default and keeps the in-memory value instead
-  of throwing.
+  of throwing
 - **Cross-tab sync** — listens to the `storage` event and updates state when
   another tab writes the same key. Disable with `{ syncTabs: false }`. Hooks in
-  the _same_ tab always stay in sync, regardless of this flag.
+  the _same_ tab always stay in sync, regardless of this flag
 - **Custom serialization** — pass a `serializer` to support `Date`, `Map`,
-  `BigInt`, or a compact wire format.
+  `BigInt`, or a compact wire format
 
 ```tsx
 const [since, setSince] = useLocalStorageState('since', new Date(), {

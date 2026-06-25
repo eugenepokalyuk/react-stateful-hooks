@@ -12,11 +12,11 @@ import { DarkModeDemo } from '@/components/demos';
 правильно:
 
 1. **Блокирующий скрипт** ([`getColorSchemeScript`](#1-применяем-тему-до-отрисовки)),
-   который выставляет тему на `<html>` _до_ первой отрисовки — именно он убирает вспышку.
+   который выставляет тему на `<html>` _до_ первой отрисовки — именно он убирает вспышку
 2. **Сохранённый выбор** ([`useLocalStorageState`](/ru/hooks/use-local-storage-state)
-   или [`useCookieState`](/ru/hooks/use-cookie-state)), который пишет переключатель.
+   или [`useCookieState`](/ru/hooks/use-cookie-state)), который пишет переключатель
 3. **Системный фолбэк** ([`usePrefersColorScheme`](/ru/hooks/use-prefers-color-scheme))
-   для тех, кто выбрал «system».
+   для тех, кто выбрал «system»
 
 <DarkModeDemo />
 
@@ -25,7 +25,7 @@ import { DarkModeDemo } from '@/components/demos';
 `getColorSchemeScript()` возвращает крошечный самодостаточный сниппет.
 Отрендерите его **блокирующим** inline-скриптом в `<head>`, чтобы он выполнился
 до отрисовки. Он читает сохранённый выбор, откатывается на системную тему и
-выставляет класс `light`/`dark` (и `color-scheme`) на `<html>`.
+выставляет класс `light`/`dark` (и `color-scheme`) на `<html>`
 
 ```tsx
 // Next.js App Router — app/layout.tsx
@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: getColorSchemeScript() }} />
       </head>
+
       <body>{children}</body>
     </html>
   );
@@ -55,20 +56,21 @@ getColorSchemeScript({
 ```
 
 > Поставьте `suppressHydrationWarning` на `<html>`, потому что скрипт меняет его
-> до гидрации React.
+> до гидрации React
 
 ## 2. Переключатель
 
 Переключатель просто читает и пишет тот же ключ. Используйте **те же `key`,
-`storage` и `attribute`**, что передали в `getColorSchemeScript`.
+`storage` и `attribute`**, что передали в `getColorSchemeScript`
 
 ```tsx
 'use client';
+
+import { useEffect } from 'react';
 import {
   useLocalStorageState,
   usePrefersColorScheme,
 } from 'react-stateful-hooks';
-import { useEffect } from 'react';
 
 type Choice = 'light' | 'dark' | 'system';
 
@@ -132,4 +134,4 @@ const [choice, setChoice] = useCookieState<Choice>('theme', 'system', {
 ```
 
 Cookie отправляются с каждым запросом, поэтому `theme` можно прочитать на сервере
-и выставить класс прямо при SSR — см. [`useCookieState`](/ru/hooks/use-cookie-state).
+и выставить класс прямо при SSR — см. [`useCookieState`](/ru/hooks/use-cookie-state)
