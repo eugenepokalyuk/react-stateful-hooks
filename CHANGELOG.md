@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-06-25
+
 ### Added
 
 - `repository`, `bugs`, and `homepage` fields in `package.json` so npm links
@@ -66,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `useDebouncedValue` — returns a trailing-debounced copy of a value.
 - `useMediaQuery` — tracks a CSS media query and re-renders on change.
 
-[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/eugenepokalyuk/react-stateful-hooks/releases/tag/v0.1.1
