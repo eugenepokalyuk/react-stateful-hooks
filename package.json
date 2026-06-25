@@ -1,7 +1,7 @@
 {
   "name": "react-stateful-hooks",
   "version": "0.2.1",
-  "description": "A small, well-typed collection of SSR-safe React hooks for browser state: persisted storage with cross-tab sync, debounced values, and media queries.",
+  "description": "A small, well-typed collection of SSR-safe React hooks for browser state: persisted storage with cross-tab sync, debounced values, and media queries",
   "type": "module",
   "license": "MIT",
   "author": "Evgenii Pokalyuk",
