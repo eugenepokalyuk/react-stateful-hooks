@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-06-26
+
+### Added
+
+- `getColorSchemeScript` — returns a blocking inline script that applies the
+  saved (or system) color scheme to `<html>` before first paint, for flash-free
+  dark mode. Reads from `localStorage` or a cookie; targets a class or attribute.
+- A "No-flash dark mode" guide (English / Русский) with a live demo.
+
+### Fixed
+
+- Docs: the `→` arrow in the home-page hook cards now sits at the end of the row.
+
 ## [0.2.0] - 2026-06-25
 
 ### Added
@@ -79,7 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `useDebouncedValue` — returns a trailing-debounced copy of a value.
 - `useMediaQuery` — tracks a CSS media query and re-renders on change.
 
-[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.4...v0.2.0
 [0.1.4]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.2...v0.1.3
