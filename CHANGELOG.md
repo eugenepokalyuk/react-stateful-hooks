@@ -7,12 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-25
+
 ### Added
 
 - `useHydrated` — returns `false` on the server and the first client render,
   then `true` after hydration, without a mismatch.
 - `useCookieState` — `useState` persisted to `document.cookie`, with a
-  `serverValue` option for flash-free SSR and same-tab sync.
+  `serverValue` option for flash-free SSR, cookie attributes, a custom
+  serializer, and same-tab sync.
+- Documentation pages with live demos for both hooks (English / Русский).
 
 ## [0.1.4] - 2026-06-25
 
@@ -75,7 +79,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `useDebouncedValue` — returns a trailing-debounced copy of a value.
 - `useMediaQuery` — tracks a CSS media query and re-renders on change.
 
-[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.4...v0.2.0
 [0.1.4]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/eugenepokalyuk/react-stateful-hooks/compare/v0.1.1...v0.1.2
