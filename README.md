@@ -36,6 +36,8 @@ ESM + CJS + types, and its only runtime dependency is the
 | [`useCopyToClipboard`](#usecopytoclipboard)           | Copy with auto-resetting "copied" feedback |
 | [`usePrefersColorScheme`](#usepreferscolorscheme)     | Reactive `'light' \| 'dark'` preference    |
 | [`usePrefersReducedMotion`](#useprefersreducedmotion) | Reactive reduced-motion preference         |
+| [`useHydrated`](#usehydrated)                         | `true` after hydration, mismatch-free      |
+| [`useCookieState`](#usecookiestate)                   | Cookie-backed state, flash-free under SSR  |
 
 ## Why react-stateful-hooks?
 
@@ -224,6 +226,64 @@ Tracks whether the user has requested reduced motion via
 const reduceMotion = usePrefersReducedMotion();
 
 <motion.div animate={reduceMotion ? undefined : { x: 100 }} />;
+```
+
+## `useHydrated`
+
+Returns `false` on the server and during the first client render, then `true`
+once hydrated. Built on `useSyncExternalStore`, so the first client render
+matches the server markup — **no hydration mismatch** — then flips to `true`
+after commit. Use it to gate browser-only output
+
+```tsx
+const hydrated = useHydrated();
+
+// Renders the same thing on both sides first, then the client-only value
+return <span>{hydrated ? new Date().toLocaleTimeString() : null}</span>;
+```
+
+## `useCookieState`
+
+A `useState` that persists to `document.cookie`. Unlike `localStorage`, cookies
+are sent with every request, so the value can be read on the server and passed
+via `serverValue` for a **flash-free SSR render** (ideal for theme/locale)
+
+```tsx
+const [theme, setTheme, clearTheme] = useCookieState('theme', 'light');
+```
+
+### Signature
+
+```ts
+const [value, setValue, removeValue] = useCookieState<T>(
+  name: string,
+  defaultValue: T,
+  options?: {
+    serializer?: { parse(raw: string): T; stringify(value: T): string };
+    serverValue?: string | null; // raw cookie read on the server (SSR)
+    path?: string; // default: '/'
+    domain?: string;
+    maxAge?: number; // seconds
+    expires?: Date;
+    sameSite?: 'lax' | 'strict' | 'none'; // default: 'lax' ('none' implies secure)
+    secure?: boolean;
+  },
+);
+```
+
+- **SSR-safe** — returns `serverValue` (parsed) or `defaultValue` on the server,
+  then reads the cookie on the client. In Next.js, pass the request cookie so
+  the value renders during SSR instead of flashing the default
+- **Resilient** — a corrupted cookie value falls back to the default
+- **Same-tab sync** — hooks bound to the same cookie name stay in sync. Cookies
+  have no cross-tab change event, so other tabs update on their next render
+
+```tsx
+// Next.js (App Router): no flash of the wrong theme on first paint
+const [theme, setTheme] = useCookieState('theme', 'light', {
+  maxAge: 60 * 60 * 24 * 365,
+  serverValue: cookies().get('theme')?.value,
+});
 ```
 
 ## Development

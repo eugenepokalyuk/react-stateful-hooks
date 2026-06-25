@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `useHydrated` — returns `false` on the server and the first client render,
+  then `true` after hydration, without a mismatch.
+- `useCookieState` — `useState` persisted to `document.cookie`, with a
+  `serverValue` option for flash-free SSR and same-tab sync.
+
 ## [0.1.4] - 2026-06-25
 
 ### Added
