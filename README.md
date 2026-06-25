@@ -9,6 +9,7 @@
 [![codecov](https://codecov.io/gh/eugenepokalyuk/react-stateful-hooks/branch/main/graph/badge.svg)](https://codecov.io/gh/eugenepokalyuk/react-stateful-hooks)
 ![types](https://img.shields.io/badge/types-included-blue)
 ![license](https://img.shields.io/badge/license-MIT-green)
+[![docs](https://img.shields.io/badge/docs-live%20demos-8b5cf6)](https://eugenepokalyuk.github.io/react-stateful-hooks/)
 
 A small, **well-typed**, **SSR-safe** collection of React hooks for browser
 state. Every hook is built on React's official `useSyncExternalStore`, so it
@@ -20,6 +21,8 @@ ESM + CJS + types, and its only runtime dependency is the
 > The problem: every project re-implements "persist this bit of state to
 > `localStorage`" — and most versions break under SSR, crash on corrupted JSON,
 > or silently drift out of sync between tabs. This library does it once, correctly
+
+📖 **[Documentation & live demos →](https://eugenepokalyuk.github.io/react-stateful-hooks/)** — every hook with an interactive example (English / Русский).
 
 ## Hooks at a glance
 
