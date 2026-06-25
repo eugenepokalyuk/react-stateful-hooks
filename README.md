@@ -286,6 +286,34 @@ const [theme, setTheme] = useCookieState('theme', 'light', {
 });
 ```
 
+## `getColorSchemeScript`
+
+A helper (not a hook) that returns a tiny blocking script to run **before first
+paint**, so the page never flashes the wrong theme. It reads the stored choice
+(from `useLocalStorageState` or `useCookieState`), falls back to the OS
+preference, and sets a `light`/`dark` class on `<html>`
+
+```tsx
+// Next.js App Router — app/layout.tsx
+import { getColorSchemeScript } from 'react-stateful-hooks';
+
+<head>
+  <script dangerouslySetInnerHTML={{ __html: getColorSchemeScript() }} />
+</head>;
+```
+
+```ts
+getColorSchemeScript(options?: {
+  key?: string; // storage key, default: 'theme'
+  storage?: 'localStorage' | 'cookie'; // default: 'localStorage'
+  attribute?: string; // 'class' (default) or e.g. 'data-theme'
+  defaultScheme?: 'light' | 'dark' | 'system'; // default: 'system'
+});
+```
+
+See the full **[no-flash dark mode recipe](https://eugenepokalyuk.github.io/react-stateful-hooks/en/guides/no-flash-dark-mode/)**
+in the docs.
+
 ## Development
 
 ```bash

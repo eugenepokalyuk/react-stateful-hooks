@@ -8,3 +8,4 @@ export { PrefersColorSchemeDemo } from './PrefersColorSchemeDemo';
 export { PrefersReducedMotionDemo } from './PrefersReducedMotionDemo';
 export { HydratedDemo } from './HydratedDemo';
 export { CookieStateDemo } from './CookieStateDemo';
+export { DarkModeDemo } from './DarkModeDemo';

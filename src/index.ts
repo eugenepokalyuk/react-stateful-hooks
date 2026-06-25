@@ -9,6 +9,8 @@ export { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 export { useHydrated } from './hooks/useHydrated';
 export { useCookieState } from './hooks/useCookieState';
 
+export { getColorSchemeScript } from './helpers/getColorSchemeScript';
+
 export type { NetworkState } from './hooks/useNetworkState';
 export type { ColorScheme } from './hooks/usePrefersColorScheme';
 export type {
@@ -23,6 +25,8 @@ export type {
   SetCookieValue,
   UseCookieStateReturn,
 } from './hooks/useCookieState';
+
+export type { ColorSchemeScriptOptions } from './helpers/getColorSchemeScript';
 
 export type { Serializer } from './internal/serializer';
 export type { CookieAttributes } from './internal/cookies';

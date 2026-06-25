@@ -1,6 +1,7 @@
 export default {
   index: 'Introduction',
   hooks: 'Hooks',
+  guides: 'Guides',
   _links: {
     type: 'separator',
   },

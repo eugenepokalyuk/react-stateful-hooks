@@ -7,3 +7,9 @@
 .nextra-sidebar a[target='_blank'] svg {
   margin-inline-start: auto;
 }
+
+/* Push the "→" arrow in the home-page hook cards to the end of the title row
+   instead of sitting right next to the label. */
+.nextra-card ._truncate {
+  flex: 1;
+}

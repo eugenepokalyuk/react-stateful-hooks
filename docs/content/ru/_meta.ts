@@ -1,6 +1,7 @@
 export default {
   index: 'Введение',
   hooks: 'Хуки',
+  guides: 'Гайды',
   _links: {
     type: 'separator',
   },
